@@ -1,29 +1,31 @@
-import React from 'react'
-
+import { useSelector } from "react-redux";
 const Navbar = () => {
+  const user = useSelector((store) => store.user);
+
+  console.log(user, "jay");
   return (
-     <div className="navbar shadow-sm px-4 sm:px-6 border-b" style={{ backgroundColor: "#161B22", borderColor: "#21262D" }}>
+    <div className="navbar sticky top-0 z-20 bg-base-100/70 backdrop-blur-xl border-b border-base-content/10 px-4 sm:px-6">
       {/* Logo */}
       <div className="flex-1">
-        <a
-          href="#"
-          className="btn btn-ghost text-lg sm:text-xl px-2 normal-case hover:bg-white/5"
-          style={{ color: "#C9D1D9", fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
-        >
-          <span style={{ color: "#3FB950" }}>~/</span>
-          DevTinder
-          <span className="inline-block w-[2px] h-5 ml-0.5 animate-pulse" style={{ backgroundColor: "#58A6FF" }} />
+        <a href="#" className="btn btn-ghost text-xl px-2 gap-2">
+          <span className="w-8 h-8 rounded-xl bg-linear-to-br from-primary to-secondary flex items-center justify-center text-sm shadow-md">
+            ♥
+          </span>
+          <span className="bg-linear-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-extrabold">
+            DevTinder
+          </span>
         </a>
       </div>
- 
+
       {/* Profile dropdown */}
       <div className="flex gap-2">
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-            <div
-              className="w-10 rounded-full ring ring-offset-2 ring-offset-[#161B22]"
-              style={{ "--tw-ring-color": "#3FB950" }}
-            >
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar online"
+          >
+            <div className="w-10 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100">
               <img
                 alt="Your profile"
                 src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
@@ -32,24 +34,25 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow-lg border"
-            style={{ backgroundColor: "#161B22", borderColor: "#21262D", color: "#C9D1D9" }}
+            className="menu menu-sm dropdown-content bg-base-100/90 backdrop-blur-xl rounded-box z-1 mt-3 w-52 p-2 shadow-2xl border border-base-content/10"
           >
             <li>
               <a className="justify-between">
                 Profile
-                <span className="badge badge-sm border-none text-white" style={{ backgroundColor: "#3FB950" }}>
-                  New
-                </span>
+                <span className="badge badge-sm badge-primary">New</span>
               </a>
             </li>
-            <li><a>Settings</a></li>
-            <li><a style={{ color: "#F85149" }}>Logout</a></li>
+            <li>
+              <a>Settings</a>
+            </li>
+            <li>
+              <a className="text-error">Logout</a>
+            </li>
           </ul>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

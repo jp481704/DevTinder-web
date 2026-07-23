@@ -1,23 +1,24 @@
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addUser } from "./utils/userSlice";
+import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState("");
   const [emailId, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const res = await axios.post(
-        "http://localhost:8800/login",
+        BASE_URL + "/login",
         {
           emailId,
           password,
@@ -25,8 +26,9 @@ const Login = () => {
         { withCredentials: true },
       );
 
-      console.log(res);
+      console.log(res.data, "Login");
       dispatch(addUser(res.data));
+      return navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -159,20 +161,6 @@ const Login = () => {
             </p>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              {isSignup && (
-                <label className="floating-label">
-                  <span>Full name</span>
-                  <input
-                    type="text"
-                    placeholder="Full name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="input input-bordered w-full"
-                    required
-                  />
-                </label>
-              )}
-
               <label className="floating-label">
                 <span>Email</span>
                 <input
@@ -205,21 +193,6 @@ const Login = () => {
                   </button>
                 </div>
               </label>
-
-              {!isSignup && (
-                <div className="flex items-center justify-between text-sm -mt-1">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="checkbox checkbox-sm checkbox-primary"
-                    />
-                    <span className="text-base-content/60">Remember me</span>
-                  </label>
-                  <a href="#" className="link link-hover link-primary">
-                    Forgot password?
-                  </a>
-                </div>
-              )}
 
               <button type="submit" className="btn btn-primary mt-2">
                 {isSignup ? "Sign up" : "Login"}

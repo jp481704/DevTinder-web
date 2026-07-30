@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
@@ -26,14 +27,12 @@ const Login = () => {
         { withCredentials: true },
       );
 
-      console.log(res.data, "Login");
       dispatch(addUser(res.data));
+      toast.success("Logged in successfully");
       return navigate("/");
     } catch (err) {
-      console.log(err);
+      toast.error(err?.response?.data || "Login failed");
     }
-    // TODO: wire up to auth API
-    console.log({ isSignup, name, emailId, password });
   };
 
   return (

@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../utils/constants";  
 import Navbar from "./Navbar";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
+
 
 const Body = () => {
   const navigate = useNavigate();

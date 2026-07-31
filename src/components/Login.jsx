@@ -3,11 +3,10 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
-  const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [emailId, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -151,12 +150,10 @@ const Login = () => {
             </div>
 
             <h2 className="text-xl font-semibold text-center">
-              {isSignup ? "Create your account" : "Welcome back"}
+              Welcome back
             </h2>
             <p className="text-sm mb-4 text-center text-base-content/50">
-              {isSignup
-                ? "Set up your profile and start matching"
-                : "Log in to continue swiping"}
+              Log in to continue swiping
             </p>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -194,19 +191,18 @@ const Login = () => {
               </label>
 
               <button type="submit" className="btn btn-primary mt-2">
-                {isSignup ? "Sign up" : "Login"}
+                Login
               </button>
             </form>
 
             <p className="text-center text-sm mt-4 text-base-content/50">
-              {isSignup ? "Already have an account?" : "New here?"}{" "}
-              <button
-                type="button"
-                onClick={() => setIsSignup((s) => !s)}
+              New here?{" "}
+              <Link
+                to="/signup"
                 className="font-semibold link link-primary no-underline"
               >
-                {isSignup ? "Login" : "Create one"}
-              </button>
+                Create one
+              </Link>
             </p>
           </div>
         </div>

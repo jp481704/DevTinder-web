@@ -1,10 +1,29 @@
-const UserCard = ({ user, isTop, onIgnore, onInterested }) => {
-  const { firstName, lastName, age, gender, about, skills, photoUrl } = user;
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { removeUserFromFeed } from "../utils/feedSlice";
+import { useDispatch } from "react-redux";
 
-  console.log(user, "user card");
+const UserCard = ({ user, isTop }) => {
+  const { _id, firstName, lastName, age, gender, about, skills, photoUrl } =
+    user;
 
   const visibleSkills = skills?.slice(0, 3) || [];
   const extraSkills = (skills?.length || 0) - visibleSkills.length;
+
+  const dispatch = useDispatch();
+  const handleSendRequest = async (status, userId) => {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/request/send/" + status + "/" + userId,
+        {},
+        { withCredentials: true },
+      );
+      console.log(res);
+      dispatch(removeUserFromFeed(userId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -79,7 +98,7 @@ const UserCard = ({ user, isTop, onIgnore, onInterested }) => {
           <div className="flex items-center gap-3 mt-4">
             <button
               type="button"
-              onClick={onIgnore}
+              onClick={() => handleSendRequest("ignore", user._id)}
               aria-label="Ignore"
               className="btn flex-1 h-12 rounded-2xl border border-white/25 bg-white/10 hover:bg-error/90 hover:border-error text-white backdrop-blur-md shadow-none"
             >
@@ -99,7 +118,7 @@ const UserCard = ({ user, isTop, onIgnore, onInterested }) => {
 
             <button
               type="button"
-              onClick={onInterested}
+              onClick={() => handleSendRequest("interested", _id)}
               aria-label="Interested"
               className="btn flex-[2] h-12 rounded-2xl border-none bg-white text-neutral-900 hover:scale-[1.03] active:scale-95 shadow-xl gap-2 font-semibold"
             >
